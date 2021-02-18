@@ -46,7 +46,7 @@
 		</encoder>
 	</appender>
 	
-	<appender name="DAILY" class="ch.qos.logback.core.rolling.RollingFileAppender">  
+	<appender name="DAILY" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${APP_HOME_LOG}/${APP_NAME}-output.log</file>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>INFO</level>
