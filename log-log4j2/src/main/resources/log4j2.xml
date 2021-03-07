@@ -1,12 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+	<!-- 
+		log4j2日志输出占位符表达式：
+		-5/+5
+			负数左对齐，正数右对齐；
+		c/logger{precision}
+			输出发布日志事件的logger名，实用中大部分时候是全路径类名；可以指定“精度”，详见官方文档；
+		C/class{precision}
+			输出全限定类名，与logger不同的是这个时专门输出类名的；官方表示有性能影响，慎用；
+		d/date{precision}
+			输出日志事件的时间点；有许多预定义的输出格式，默认是DEFAULT，格式为“yyyy-MM-dd HH:mm:ss, SSS”，还许多其他的格式详见文档；
+		enc/encode{pattern}[HTML|XML|JSON|CRLF]
+			编码指定的逃逸字符，通常用来做模糊化操作，可以和MDC共用；还不太清楚其应用场景；
+		equals/equalsIngnoreCase{pattern}{test}{substitution}
+			替换模式pattern中test部分为substitution；还不太清楚应用场景；
+		ex/exception/throwable{}{}
+			输出异常调用栈；可以指定调用栈输出长度；
+		F/file
+			输出日志请求发布的文件名；官方表示影响性能慎用；
+		highlight{pattern}{style}
+			配置不同级别的输出不同的颜色；
+		K/map/MAP{key}
+			输出MapMessage中的键值对；
+		I/location
+			输出产生日志时间的调用者，通常是代码行；官方表示影响性能慎用；
+		L/line
+			输出代码行数；官方表示影响性能慎用；
+		m/msg/message{nolookups}{ansi}
+			输出日志消息本身；有许多设置选项，看官方文档吧；
+		M/method
+			输出方法名；官方表示影响性能慎用；
+		marker
+			输出marker的全名；
+		markerSimpleName
+			输出marker的简名；
+		maxLen/maxLength
+			用于限定日志行最大长度，默认100；
+		n
+			输出换行符，根据不同平台而定；
+		N/nano
+			输出System.nanoTime()的结果；
+		pid/processId{defaultValue}
+			输出进程号；
+		variablesNotEmpty/varsNotEmpty/notEmpty{pattern}
+			仅在模式中的所有变量都不为空时输出模式结果；
+		p/level{level}{length}{lowerCase}
+			输出日志级别；
+		r/relative
+			输出JVM启动毫秒数；
+		replace{pattern}{regex}{substitution}
+			用于替换的；尚不明其使用场景；
+		rEx/rException/rThrowable
+			类似于%throwable，具体区别看文档；
+		sn/sequenceNumber
+			包含每个时间增长的序列号；计数器是静态的；
+		style{pattern}{ANSI style}
+			使用ANSI转义序列定义模式的结果，比输出颜色一类的；详情看文档；
+		T/tid/threadId
+			输出线程的ID；
+		t/tn/thread/threadName
+			输出线程名；
+		tp/threadPriority
+			输出线程优先级；
+		fqcn
+			输出logger的全限定类名；（那么跟logger那些有什么区别？）
+		endOfBatch
+			输出EndOfBatch状态，true/false；
+		x/NDC
+			输出与产生日志时间相关联的线程上下文映射（也叫映射诊断上下文MDC）；
+		X/mdc/MDC{key,...}
+			输出与产生日志时间相关联的线程上下文映射（也叫映射诊断上下文MDC），可以指定输出的键；
+		u{RANDOM|TIME}uuid
+			产生随机的或基于时间的UUID；
+		xEx/xException/xThrowable
+			类似于%throwable转换字，但会包含类包信息；
+		%
+			百分号%的转义字符；
+	 -->
+	<Properties>
+		<Properties name="PATTERN_LAYOUT_DEFAULT">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%-5level][%logger] - %msg%n</Properties>
+	</Properties>
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+			<PatternLayout pattern="${PATTERN_LAYOUT_DEFAULT}"/>
 		</Console>
 		<RollingFile name="Daily" fileName="${APP_HOME_LOG}/app.log" 
 				filePattern="${APP_HOME_LOG}/app.%d{yyyy-MM-dd}.log">
-			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+			<PatternLayout pattern="${PATTERN_LAYOUT_DEFAULT}"/>
 			<SizeBasedTriggeringPolicy size="1GB"/>
 			<DefaultRolloverStrategy max="30"/>
 		</RollingFile>
