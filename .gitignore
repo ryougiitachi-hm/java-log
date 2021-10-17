@@ -3,5 +3,5 @@
 .settings/
 .idea/
 *.iml
-log/
+logs/
 target/

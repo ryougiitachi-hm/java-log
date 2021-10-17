@@ -78,11 +78,11 @@
 			百分号%的转义字符；
 	 -->
 	<Properties>
-		<Properties name="PATTERN_LAYOUT_DEFAULT">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%-5level][%logger] - %msg%n</Properties>
+		<Properties name="PATTERN_LAYOUT_DEFAULT">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%-5level][%X{trace-id}][%logger] - %msg %n</Properties>
 	</Properties>
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="${PATTERN_LAYOUT_DEFAULT}"/>
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%-5level][%X{trace-id}][%logger] - %msg %n"/>
 		</Console>
 		<RollingFile name="Daily" fileName="${APP_HOME_LOG}/app.log" 
 				filePattern="${APP_HOME_LOG}/app.%d{yyyy-MM-dd}.log">
@@ -90,11 +90,22 @@
 			<SizeBasedTriggeringPolicy size="1GB"/>
 			<DefaultRolloverStrategy max="30"/>
 		</RollingFile>
+		<RandomAccessFile name="daily-raf" fileName="${APP_HOME_LOG}/app-raf.log" immediateFlush="false" append="false">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%-5level][%X{trace-id}][%logger] - %msg %n"/>
+		</RandomAccessFile>
 	</Appenders>
 	<Loggers>
+		<!-- 同步 -->
 		<Logger name="org.springframework.boot" level="info"></Logger>
 		<Root level="info">
 			<AppenderRef ref="Console"/>
 		</Root>
+		<!-- 异步 -->
+<!-- 		<AsyncLogger name="">-->
+<!-- 			<appender-ref ref=""></appender-ref> -->
+		<!-- </AsyncLogger>
+		<Asyncroot level="info">default logger
+			<appender-ref ref="Daily"/>
+		</Asyncroot> -->
 	</Loggers>
 </Configuration>
