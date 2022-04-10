@@ -86,17 +86,17 @@
 		</Console>
 		<RollingFile name="Daily" fileName="${APP_HOME_LOG}/app.log" 
 				filePattern="${APP_HOME_LOG}/app.%d{yyyy-MM-dd}.log">
-			<PatternLayout pattern="${PATTERN_LAYOUT_DEFAULT}"/>
+			<PatternLayout pattern="${sys:PATTERN_LAYOUT_DEFAULT}"/>
 			<SizeBasedTriggeringPolicy size="1GB"/>
 			<DefaultRolloverStrategy max="30"/>
 		</RollingFile>
 		<RandomAccessFile name="daily-raf" fileName="${APP_HOME_LOG}/app-raf.log" immediateFlush="false" append="false">
-			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%-5level][%X{trace-id}][%logger] - %msg %n"/>
+			<PatternLayout pattern="${sys:PATTERN_LAYOUT_DEFAULT}"/>
 		</RandomAccessFile>
 	</Appenders>
 	<Loggers>
 		<!-- 同步 -->
-		<Logger name="org.springframework.boot" level="info"></Logger>
+		<Logger name="org.springframework.boot" level="info"/>
 		<Root level="info">
 			<AppenderRef ref="Console"/>
 		</Root>
