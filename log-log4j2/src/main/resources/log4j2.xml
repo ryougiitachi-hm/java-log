@@ -78,19 +78,20 @@
 			百分号%的转义字符；
 	 -->
 	<Properties>
-		<Properties name="PATTERN_LAYOUT_DEFAULT">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%-5level][%X{trace-id}][%logger] - %msg %n</Properties>
+		<Property name="APP_NAME">log4j2</Property>
+		<Property name="PATTERN_LAYOUT_DEFAULT">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%-5level][%X{trace-id}][%logger] - %msg %n</Property>
 	</Properties>
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%-5level][%X{trace-id}][%logger] - %msg %n"/>
+			<PatternLayout pattern="${sys:PATTERN_LAYOUT_DEFAULT}"/>
 		</Console>
-		<RollingFile name="Daily" fileName="${APP_HOME_LOG}/app.log" 
-				filePattern="${APP_HOME_LOG}/app.%d{yyyy-MM-dd}.log">
+		<RollingFile name="Daily" fileName="${env:APP_HOME_LOG}/${APP_NAME}.log"
+				filePattern="${env:APP_HOME_LOG}/${APP_NAME}.%d{yyyy-MM-dd}.log">
 			<PatternLayout pattern="${sys:PATTERN_LAYOUT_DEFAULT}"/>
 			<SizeBasedTriggeringPolicy size="1GB"/>
 			<DefaultRolloverStrategy max="30"/>
 		</RollingFile>
-		<RandomAccessFile name="daily-raf" fileName="${APP_HOME_LOG}/app-raf.log" immediateFlush="false" append="false">
+		<RandomAccessFile name="daily-raf" fileName="${env:APP_HOME_LOG}/${APP_NAME}-raf.log" immediateFlush="false" append="false">
 			<PatternLayout pattern="${sys:PATTERN_LAYOUT_DEFAULT}"/>
 		</RandomAccessFile>
 	</Appenders>
