@@ -17,7 +17,7 @@ target/
 .flattened-pom.xml
 
 # Log
-log/
+#log/
 logs/
 *.log
 
